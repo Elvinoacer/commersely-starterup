@@ -42,11 +42,14 @@ export async function middleware(request: NextRequest) {
     } catch (e) {
       console.error("Token verification failed", e);
       // Attempt to refresh the token
+      // In your middleware.ts
       const refreshResponse = await fetch(`${API_ROUTES.AUTH}/refresh-token`, {
         method: "POST",
-        credentials: "include",
+        credentials: "include", // This is correct
         headers: {
           "Content-Type": "application/json",
+          // Add this to ensure cookies are sent
+          Cookie: request?.cookies?.toString(),
         },
       });
 
